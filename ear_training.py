@@ -20,7 +20,12 @@ def extract_pitch(audio: np.ndarray, sr: int) -> List[float]:
     """Extract pitch sequence from audio using librosa's pyin."""
     if librosa is None:
         raise RuntimeError("librosa is required for pitch extraction")
-    f0, voiced_flag, _ = librosa.pyin(audio, fmin=librosa.note_to_hz('C2'), fmax=librosa.note_to_hz('C7'))
+    f0, voiced_flag, _ = librosa.pyin(
+        audio,
+        sr=sr,
+        fmin=librosa.note_to_hz('C2'),
+        fmax=librosa.note_to_hz('C7')
+    )
     return [float(p) for p, v in zip(f0, voiced_flag) if v]
 
 def freq_to_solfege(freq: float) -> str:
